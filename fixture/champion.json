@@ -1,0 +1,52 @@
+[
+    {
+        "version": "5.2.1",
+        "id": "Tristana",
+        "key": "18",
+        "name": "Tristana",
+        "title": "the Yordle Gunner",
+        "blurb": "Greatness comes in all shapes and sizes, as proven by this diminutive, cannon-wielding yordle. In a world fraught with turmoil, Tristana refuses to back down from any challenge. She represents the pinnacle of martial proficiency, unwavering courage, ...",
+        "info": {
+            "attack": 9,
+            "defense": 3,
+            "magic": 5,
+            "difficulty": 4
+        },
+        "image": {
+            "full": "Tristana.png",
+            "sprite": "champion3.png",
+            "group": "champion",
+            "x": 288,
+            "y": 0,
+            "w": 48,
+            "h": 48
+        },
+        "tags": [
+            "Marksman",
+            "Assassin"
+        ],
+        "partype": "Mana",
+        "stats": {
+            "hp": 542.76,
+            "hpperlevel": 82,
+            "mp": 246.76,
+            "mpperlevel": 32,
+            "movespeed": 325,
+            "armor": 22,
+            "armorperlevel": 3,
+            "spellblock": 30,
+            "spellblockperlevel": 0,
+            "attackrange": 550,
+            "hpregen": 6.19,
+            "hpregenperlevel": 0.65,
+            "mpregen": 7.205,
+            "mpregenperlevel": 0.45,
+            "crit": 0,
+            "critperlevel": 0,
+            "attackdamage": 51.54,
+            "attackdamageperlevel": 3,
+            "attackspeedoffset": -0.04734,
+            "attackspeedperlevel": 1.5
+        }
+    }
+]

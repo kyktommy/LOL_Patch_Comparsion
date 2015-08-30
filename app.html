@@ -1,0 +1,32 @@
+<div>
+
+  <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</alert>
+
+  <h3>Champion Picks In Lane</h3>
+  <div ng-repeat="lane in topChampionPicks">
+    <p>Lane: {{lane.lane}}</p>
+    <div ng-repeat="c in lane.champions">
+      <p>{{c.champion.data.name}} - {{c.uses}}</p>
+      <img ng-src='{{c.champion.icon}}' />
+    </div>
+    <hr />
+  </div>
+  
+
+<!--   <h3>Top Ap Item in those matches</h3>
+  <span ng-repeat="item in itemsData">
+    <p>{{item.data.name}} - {{item.uses}}</p>
+    <img ng-src='{{item.icon}}' />
+  </span>
+ -->
+
+<!--   <div ng-repeat="m in matchesData">
+    <div ng-repeat="p in m.participants">
+      <img ng-src='{{p.champion.icon}}' />
+      <span ng-repeat="item in p.items">
+        <img ng-src='{{item.icon}}' />
+      </span>
+    </div>
+  </div>
+
+</div>
