@@ -7,6 +7,20 @@ var wrapApiKey = function(url) {
 
 angular.module('app', ['ngRoute', 'ui.bootstrap'])
 
+.constant('DataSet', {
+    dataSet1: {
+      version: '5.11.1',
+      region: 'na',
+      data: ['1900729148', '1900734999', '1900735484', '1900735825', '1900736607']
+    },
+    dataSet2: {
+      version: '5.14.1',
+      region: 'na',
+      data: ['1900729148', '1900734999', '1900735484', '1900735825', '1900736607']
+    }
+  }
+)
+
 .config(function($routeProvider) {
   $routeProvider
     .when('/',
@@ -20,8 +34,11 @@ angular.module('app', ['ngRoute', 'ui.bootstrap'])
         champions: function(StaticDataService) {
           return StaticDataService.getChampionListAsync();
         },
-        matches: function(MatchService) {
-          return MatchService.getMatches(['1900729148', '1900734999', '1900735484', '1900735825', '1900736607']);
+        matches: function(MatchService, DataSet) {
+          return MatchService.getMatches(DataSet.dataSet1.data);
+        },
+        matches2: function(MatchService, DataSet) {
+          return MatchService.getMatches(DataSet.dataSet2.data);
         }
       }
     }
@@ -32,8 +49,15 @@ angular.module('app', ['ngRoute', 'ui.bootstrap'])
 
   var cachedChampionList = null;
   var cachedItemList = null;
+  var version = '';
+  var region = '';
 
   return {
+
+    with: function(version, region) {
+      version = version;
+      region = region;
+    },
 
     getItemListAsync: function() {
       if (cachedItemList != null) {
@@ -112,12 +136,13 @@ angular.module('app', ['ngRoute', 'ui.bootstrap'])
   }
 })
 
-.controller('AppCtrl', function($scope, StaticDataService, ChampionService, ItemService, matches, items, champions) {
+.controller('AppCtrl', function($scope, StaticDataService, ChampionService, ItemService, matches, matches2, items, champions) {
 
-  $scope.alerts = [
-    { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
-    { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
-  ];
+  $scope.alerts = [];
+
+  $scope.closeAlert = function(index) {
+    $scope.alerts.splice(index, 1);
+  };
 
   function filterApItems(items) {
     return _(items)
@@ -131,21 +156,33 @@ angular.module('app', ['ngRoute', 'ui.bootstrap'])
   }
 
   function mapReduceStats(matches) {
-    return results = _(matches).map(function(match) {
-      return _.reduce(match.participants, function(total, participant) {
-        total.kills += participant.stats.kills;
-        total.magicDamageDealt += participant.stats.magicDamageDealt;
-        total.creepsPerMin += participant.stats.minionsKilled / (match.matchDuration/60);
-        total.godPerMin += participant.stats.goldEarned / (match.matchDuration/60);
-        return total;
-      }, {
-        kills: 0,
-        magicDamageDealt: 0,
-        creepsPerMin: 0,
-        godPerMin: 0
-      });
-    }).value();
+    var participants = getAllParticipantFromMatches(matches);
+    var matchDurations = _.pluck(matches, 'matchDuration');
+
+    var ret = _.reduce(participants, function(total, participant, i) {
+      var index = Math.ceil(i/10)-1;
+      var matchDuration = matchDurations[index < 0 ? 0 : index];
+
+      total.kills += participant.stats.kills;
+      total.magicDamageDealt += participant.stats.magicDamageDealt;
+      total.magicDamageDealtToChampions += participant.stats.magicDamageDealtToChampions;
+      total.creepsPerMin += participant.stats.minionsKilled / (matchDuration/60);
+      total.godPerMin += participant.stats.goldEarned / (matchDuration/60);
+      return total;
+    }, {
+      kills: 0,
+      magicDamageDealt: 0,
+      magicDamageDealtToChampions: 0,
+      creepsPerMin: 0,
+      godPerMin: 0
+    });
+
+    return _.mapValues(ret, function(v) {
+      return (v / matches.length).toFixed(2);
+    });
   }
+
+  $scope.stats = mapReduceStats(matches);
 
   function getParticipantItems(participant) {
     return [0, 1, 2, 3, 4, 5, 6]
@@ -187,11 +224,6 @@ angular.module('app', ['ngRoute', 'ui.bootstrap'])
     // return [{ id: 1004, uses: 0}]
   }
 
-  $scope.itemsData = mapReduceApItemStats(matches)
-    .map(function(item) {
-      return _.assign({}, mapItemData(item.id), { uses: item.uses });
-    });
-
 
   function mapReduceChampionPosition(matches, lane, top) {
     var top = top || 5;
@@ -215,20 +247,6 @@ angular.module('app', ['ngRoute', 'ui.bootstrap'])
     // return [{championId: 12, uses: 0}]
 
   }
-
-  var lanes = ['MIDDLE', 'TOP', 'BOTTOM', 'JUNGLE'];
-  $scope.topChampionPicks = lanes.map(function(lane) {
-    return {
-      champions: mapReduceChampionPosition(matches, lane)
-        .map(function(champion) {
-          return {
-            champion: mapChampionData(champion.id),
-            uses: champion.uses
-          }
-        }),
-      lane: lane
-    }
-  });
 
   function mapItemData(itemId) {
     var itemData = ItemService.getItem(itemId);
@@ -256,10 +274,32 @@ angular.module('app', ['ngRoute', 'ui.bootstrap'])
     });
   }
 
-  // $scope.matchesData = _.map(matches, function(match) {
-  //   return {
-  //     participants: mapMatchToViewData(match)
-  //   };
-  // });
+  // View Models
+
+  $scope.itemsData = mapReduceApItemStats(matches)
+    .map(function(item) {
+      return _.assign({}, mapItemData(item.id), { uses: item.uses });
+    });
+
+  var lanes = ['MIDDLE', 'TOP', 'BOTTOM', 'JUNGLE'];
+  $scope.topChampionPicks = lanes.map(function(lane) {
+    return {
+      champions: mapReduceChampionPosition(matches, lane)
+        .map(function(champion) {
+          return {
+            champion: mapChampionData(champion.id),
+            uses: champion.uses
+          }
+        }),
+      lane: lane
+    }
+  });
+
+  $scope.matchesData = _.map(matches, function(match) {
+    return {
+      matchId: match.matchId,
+      participants: mapMatchToViewData(match)
+    };
+  });
 
 });

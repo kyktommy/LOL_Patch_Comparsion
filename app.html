@@ -1,32 +1,69 @@
-<div>
+<div id="main-container">
 
-  <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</alert>
+  <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
 
-  <h3>Champion Picks In Lane</h3>
-  <div ng-repeat="lane in topChampionPicks">
-    <p>Lane: {{lane.lane}}</p>
-    <div ng-repeat="c in lane.champions">
-      <p>{{c.champion.data.name}} - {{c.uses}}</p>
-      <img ng-src='{{c.champion.icon}}' />
-    </div>
-    <hr />
-  </div>
-  
+  <tabset>
 
-<!--   <h3>Top Ap Item in those matches</h3>
-  <span ng-repeat="item in itemsData">
-    <p>{{item.data.name}} - {{item.uses}}</p>
-    <img ng-src='{{item.icon}}' />
-  </span>
- -->
-
-<!--   <div ng-repeat="m in matchesData">
-    <div ng-repeat="p in m.participants">
-      <img ng-src='{{p.champion.icon}}' />
-      <span ng-repeat="item in p.items">
+    <tab heading="Top AP Item Picks">
+      <h3>Top AP Item Picks</h3>
+      <div ng-repeat="item in itemsData">
+        <p>{{item.data.name}} - {{item.uses}}</p>
         <img ng-src='{{item.icon}}' />
-      </span>
-    </div>
-  </div>
+      </div>
+    </tab>
+
+    <tab heading="Top Champion Picks">
+      <h3>Top Champion Picks</h3>
+      <div ng-repeat="lane in topChampionPicks">
+        <p>Lane: {{lane.lane}}</p>
+        <div ng-repeat="c in lane.champions">
+          <p>{{c.champion.data.name}} - {{c.uses}}</p>
+          <img ng-src='{{c.champion.icon}}' />
+        </div>
+        <hr />
+      </div>
+    </tab>
+
+    <tab heading="Match Statistics">
+      <h3>Match Stats Comparsion</h3>
+      <ul>
+        <li>
+          <span>Average Kills</span>
+          {{stats.kills}}
+        </li>
+        <li>
+          <span>Average Magic Damage Dealt</span>
+          {{stats.magicDamageDealt}}
+        </li>
+        <li>
+          <span>Average Magic Damage Dealt To Champions</span>
+          {{stats.magicDamageDealtToChampions}}
+        </li>
+        <li>
+          <span>Average Creeps Kills Per Minutes</span>
+          {{stats.creepsPerMin}}
+        </li>
+        <li>
+          <span>Average God Earn Per Min </span>
+          {{stats.godPerMin}}
+        </li>
+      </ul>
+    </tab>
+
+    <tab heading="Match Champions">
+      <h3>Match Champions And Items</h3>
+      <div ng-repeat="m in matchesData">
+        <h5>{{m.matchId}}</h5>
+        <div ng-repeat="p in m.participants">
+          <img ng-src='{{p.champion.icon}}' />
+          <span ng-repeat="item in p.items">
+            <img ng-src='{{item.icon}}' />
+          </span>
+        </div>
+        <hr />
+      </div>
+    </tab>
+
+  </tabset>
 
 </div>
