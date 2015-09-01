@@ -324,8 +324,6 @@ angular.module('app')
    { matchId: $scope.dataSets[1].matchesData.options[0].matchId }
   ];
 
-  debugger;
-
   // END init hide progress
 
 });
