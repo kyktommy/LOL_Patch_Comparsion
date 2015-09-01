@@ -42,6 +42,13 @@ body {
   margin-bottom: 5px;
 }
 
+.ap-item-list .ap-item .uses {
+  margin-left: 5px;
+  padding: 5px;
+  background: black;
+  color: white;
+}
+
 .selector {
   text-align: center;
   width: 50%;

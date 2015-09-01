@@ -11,7 +11,7 @@
           <div class="ap-item-list">
             <p class="version">Patch: {{dataset.dataService.version}}</p>
             <div class="ap-item" ng-repeat="item in dataset.itemsData">
-              <p>{{item.data.name}} - {{item.uses}}</p>
+              <p>{{item.data.name}} <span class="uses">{{item.uses}}</span></p>
               <img ng-src='{{item.icon}}' />
             </div>
           </div>

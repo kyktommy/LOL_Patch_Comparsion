@@ -325,5 +325,4 @@ angular.module('app')
   ];
 
   // END init hide progress
-
 });
