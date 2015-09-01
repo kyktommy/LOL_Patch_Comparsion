@@ -1,0 +1,92 @@
+body {
+  max-width: 1024px;
+  margin: 0 auto;
+  font-family: 'Roboto', sans-serif;
+}
+
+#main-container {
+  padding: 10px;
+}
+
+.tab-content h3 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.datasets .dataset:first-child {
+  border-right: 1px solid #ccc;
+}
+
+.datasets .version {
+  font-size: 32px;
+  border-bottom: 1px solid black;
+  display: inline-block;
+  margin-bottom: 30px;
+}
+
+.ap-item-list, .top-champion-list, .stat-list, .match-list {
+  text-align: center;
+}
+
+.ap-item {
+  margin-bottom: 20px;
+}
+
+.ap-item p {
+  margin-bottom: 5px;
+}
+
+.top-champion-list .lane {
+  font-size: 32px;
+}
+
+.top-champion-list .champ {
+  margin-right: 5px;
+  margin-bottom: 20px;
+}
+
+.top-champion-list .champ img {
+  width: 128px;
+}
+
+.top-champion-list .champ p {
+  margin-bottom: 0px;
+}
+
+.top-champion-list .champ .uses {
+  margin-left: 5px;
+  padding: 5px;
+  background: black;
+  color: white;
+}
+
+.stat-list {
+  list-style: none;
+}
+
+.stat-list li {
+  font-size: 48px;
+  margin-bottom: 32px;
+}
+
+.stat-list li span {
+  font-size: 24px;
+  display: block;
+}
+
+.stat-list li p {
+  padding: 5px;
+  border: 2px solid black;
+}
+
+.match-list .champ {
+  text-align: left;
+}
+
+.match-list .champ-head {
+  width: 90px;
+}
+
+.match-list .champ-item {
+  width: 50px;
+}
