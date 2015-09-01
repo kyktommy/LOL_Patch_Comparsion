@@ -1,8 +1,8 @@
-# LOL Match Comparsion
+# LOL Patch Comparsion
 
 ## Description
 
-It is my project for The Riot Games API Challenge 2.0, topic 2. Showing two list of data for better comparsion between two set of matches in different patches. Riot patch design is awesome that every items, champions is isolated in different patch. so we can analysis two different patches easier.
+It is my project for The Riot Games API Challenge 2.0, topic 2. Showing two list of data for better comparsion between two different patches' matches. Riot patch design is awesome that every items, champions is isolated in different patch. so we can analysis two different patches easier.
 
 ## Start Guide
 
@@ -22,6 +22,7 @@ It is my project for The Riot Games API Challenge 2.0, topic 2. Showing two list
 
 ## To Be Continue
 
+- server for fetch and cache all dataset
 - More ap items data analysis.
 - D3.js for better visualization.
 - python numpy for better data analysis.
