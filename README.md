@@ -7,7 +7,7 @@ It is my project for The Riot Games API Challenge 2.0, topic 2. Showing two list
 ## Start Guide
 
 - config API TOKEN in `js/config.js`
-- run `npm install -g serve` to install web server
+- `npm install -g serve` to install serve to host the web
 - run `serve` in this root directory to start web server
 
 ## Config
@@ -26,3 +26,4 @@ It is my project for The Riot Games API Challenge 2.0, topic 2. Showing two list
 - More ap items data analysis.
 - D3.js for better visualization.
 - python numpy for better data analysis.
+- lazy loading for each page.

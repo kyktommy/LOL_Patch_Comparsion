@@ -22,11 +22,14 @@
     <tab heading="Top Champion Picks">
       <h3>Top Champion Picks</h3>
       <div class="datasets row">
+        <div class="selector highlight">
+          <p class="lane">Select Lane:</p>
+          <select ng-model="laneFilter.lane" ng-options="l for l in dataSets[0].topChampionPicks.options" />
+        </div>
         <div class="dataset col-xs-6" ng-repeat="dataset in dataSets">
           <div class="top-champion-list">
             <p class="version">Patch: {{dataset.dataService.version}}</p>
-            <div ng-repeat="lane in dataset.topChampionPicks">
-              <p class="lane">Lane: {{lane.lane}}</p>
+            <div ng-repeat="lane in dataset.topChampionPicks.lanes | filter: laneFilter">
               <div class="champ" ng-repeat="c in lane.champions">
                 <p>{{c.champion.data.name}} <span class="uses">{{c.uses}}</span></p>
                 <img ng-src='{{c.champion.icon}}' />
@@ -75,7 +78,13 @@
         <div class="dataset col-xs-6" ng-repeat="dataset in dataSets">
           <div class="match-list">
             <p class="version">Patch: {{dataset.dataService.version}}</p>
-            <div ng-repeat="m in dataset.matchesData">
+            <div class="selector highlight">
+              <p>Select Match:</p>
+              <select
+                ng-model="matchFilters[$index].matchId"
+                ng-options="v.matchId as v.matchId for (k, v) in dataset.matchesData.options" />
+            </div>
+            <div ng-repeat="m in dataset.matchesData.matches | filter: matchFilters[$index]">
               <div class="champ" ng-repeat="p in m.participants">
                 <img class="champ-head" ng-src='{{p.champion.icon}}' />
                 <span ng-repeat="item in p.items">

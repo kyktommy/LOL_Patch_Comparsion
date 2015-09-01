@@ -8,6 +8,12 @@ body {
   padding: 10px;
 }
 
+.highlight {
+  padding: 5px;
+  background: black;
+  color: white;
+}
+
 .tab-content h3 {
   text-align: center;
   margin-bottom: 30px;
@@ -34,6 +40,23 @@ body {
 
 .ap-item p {
   margin-bottom: 5px;
+}
+
+.selector {
+  text-align: center;
+  width: 50%;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+
+.selector * {
+  font-size: 28px;
+  display: inline;
+}
+
+.selector select {
+  margin-left: 5px;
+  line-height: 50px;
 }
 
 .top-champion-list .lane {
@@ -81,6 +104,10 @@ body {
 
 .match-list .champ {
   text-align: left;
+}
+
+.match-list .champ:nth-child(5) {
+  margin-bottom: 20px;
 }
 
 .match-list .champ-head {

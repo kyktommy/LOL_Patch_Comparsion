@@ -214,6 +214,7 @@ angular.module('app')
     this.items = dataService.getItemList();
     this.champions = dataService.getChampionList();
     this.matches = dataService.getMatchList();
+    this.lanes = ['MIDDLE', 'TOP', 'BOTTOM', 'JUNGLE'];
   };
 
   _.extend(ViewModel.prototype, {
@@ -257,21 +258,23 @@ angular.module('app')
 
     topChampionPicks: function() {
       var self = this;
-      var lanes = ['MIDDLE', 'TOP', 'BOTTOM', 'JUNGLE'];
       var matches = this.matches;
 
-      return lanes.map(function(lane) {
-        return {
-          champions: mapReduceChampionPosition(matches, lane)
-            .map(function(champion) {
-              return {
-                champion: self.mapChampionData(champion.id),
-                uses: champion.uses
-              }
-            }),
-          lane: lane
-        }
-      });
+      return {
+        options: this.lanes,
+        lanes: this.lanes.map(function(lane) {
+          return {
+            champions: mapReduceChampionPosition(matches, lane)
+              .map(function(champion) {
+                return {
+                  champion: self.mapChampionData(champion.id),
+                  uses: champion.uses
+                }
+              }),
+            lane: lane
+          }
+        })
+      }
     },
 
     matchesStats: function() {
@@ -281,12 +284,15 @@ angular.module('app')
     matchesData: function() {
       var self = this;
 
-      return _.map(this.matches, function(match) {
+      return {
+        options: this.matches,
+        matches: _.map(this.matches, function(match) {
           return {
             matchId: match.matchId,
             participants: self.mapMatchToViewData(match)
           };
-        });
+        })
+      }
     },
 
   });
@@ -294,13 +300,15 @@ angular.module('app')
   var dataSetOneVM = new ViewModel(dataService);
   var dataSetTwoVM = new ViewModel(dataService2);
 
+  $scope.laneFilter = { lane: 'MIDDLE' };
+
   $scope.dataSets = [
     {
       dataService: dataService,
       itemsData: dataSetOneVM.apItemStats(),
       topChampionPicks: dataSetOneVM.topChampionPicks(),
       stats: dataSetOneVM.matchesStats(),
-      matchesData: dataSetOneVM.matchesData()
+      matchesData: dataSetOneVM.matchesData(),
     },
     {
       dataService: dataService2,
@@ -310,6 +318,13 @@ angular.module('app')
       matchesData: dataSetTwoVM.matchesData()
     }
   ];
+
+  $scope.matchFilters = [
+   { matchId: $scope.dataSets[0].matchesData.options[0].matchId },
+   { matchId: $scope.dataSets[1].matchesData.options[0].matchId }
+  ];
+
+  debugger;
 
   // END init hide progress
 
